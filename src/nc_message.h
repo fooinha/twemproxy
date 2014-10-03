@@ -154,6 +154,11 @@ typedef enum msg_parse_result {
     ACTION( REQ_REDIS_ZSCORE )                                                                      \
     ACTION( REQ_REDIS_ZUNIONSTORE )                                                                 \
     ACTION( REQ_REDIS_ZSCAN)                                                                        \
+    ACTION( REQ_REDIS_WVINCRBY )               /* redis requests - wave */                          \
+    ACTION( REQ_REDIS_WVRESET )                                                                     \
+    ACTION( REQ_REDIS_WVDEBUG )                                                                     \
+    ACTION( REQ_REDIS_WVGET )                                                                       \
+    ACTION( REQ_REDIS_WVTOTAL )                                                                     \
     ACTION( REQ_REDIS_EVAL )                   /* redis requests - eval */                          \
     ACTION( REQ_REDIS_EVALSHA )                                                                     \
     ACTION( RSP_REDIS_STATUS )                 /* redis response */                                 \

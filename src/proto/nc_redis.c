@@ -100,6 +100,8 @@ redis_arg1(struct msg *r)
     case MSG_REQ_REDIS_ZRANK:
     case MSG_REQ_REDIS_ZREVRANK:
     case MSG_REQ_REDIS_ZSCORE:
+
+
         return true;
 
     default:
@@ -213,6 +215,12 @@ redis_argn(struct msg *r)
     case MSG_REQ_REDIS_ZREVRANGEBYSCORE:
     case MSG_REQ_REDIS_ZUNIONSTORE:
     case MSG_REQ_REDIS_ZSCAN:
+
+    case MSG_REQ_REDIS_WVINCRBY:
+    case MSG_REQ_REDIS_WVDEBUG:
+    case MSG_REQ_REDIS_WVGET:
+    case MSG_REQ_REDIS_WVTOTAL:
+
         return true;
 
     default:
@@ -232,6 +240,8 @@ redis_argx(struct msg *r)
     switch (r->type) {
     case MSG_REQ_REDIS_MGET:
     case MSG_REQ_REDIS_DEL:
+
+    case MSG_REQ_REDIS_WVRESET:
         return true;
 
     default:
@@ -681,6 +691,11 @@ redis_parse_req(struct msg *r)
                     break;
                 }
 
+                if (str5icmp(m, 'w', 'v', 'g', 'e', 't')) {
+                    r->type = MSG_REQ_REDIS_WVGET;
+                    break;
+                }
+
                 break;
 
             case 6:
@@ -842,6 +857,21 @@ redis_parse_req(struct msg *r)
                     break;
                 }
 
+                if (str7icmp(m, 'w', 'v', 'r', 'e', 's', 'e', 't')) {
+                    r->type = MSG_REQ_REDIS_WVRESET;
+                    break;
+                }
+
+                if (str7icmp(m, 'w', 'v', 'd', 'e', 'b', 'u', 'g')) {
+                    r->type = MSG_REQ_REDIS_WVDEBUG;
+                    break;
+                }
+
+                if (str7icmp(m, 'w', 'v', 't', 'o', 't', 'a', 'l')) {
+                    r->type = MSG_REQ_REDIS_WVTOTAL;
+                    break;
+                }
+
                 break;
 
             case 8:
@@ -874,6 +904,12 @@ redis_parse_req(struct msg *r)
                     r->type = MSG_REQ_REDIS_ZREVRANK;
                     break;
                 }
+
+                if (str8icmp(m, 'w', 'v', 'i', 'n', 'c', 'r', 'b', 'y')) {
+                    r->type = MSG_REQ_REDIS_WVINCRBY;
+                    break;
+                }
+
 
                 break;
 
